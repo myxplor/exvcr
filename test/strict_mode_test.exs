@@ -33,8 +33,12 @@ defmodule ExVCR.StrictModeTest do
 
   test "it throws an error when set and no cassette recorded" do
     use_cassette "strict_mode_on", strict_mode: true do
-      assert_raise ExVCR.RequestNotMatchError, fn ->
+      try do
        HTTPotion.get(@url, []).body =~ ~r/test_response/
+       assert(false, "Shouldn't get here")
+      catch
+        "A matching cassette was not found" <> _ -> assert(true)
+        _ -> assert(false, "Encountered unexpected `throw`")
       end
     end
   end
