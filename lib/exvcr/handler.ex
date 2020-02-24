@@ -194,7 +194,7 @@ defmodule ExVCR.Handler do
 
       Request: #{inspect(request)}
       """
-      raise ExVCR.RequestNotMatchError, message: message
+      throw(message)
     end
     false
   end
